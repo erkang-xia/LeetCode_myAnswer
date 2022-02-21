@@ -1,0 +1,47 @@
+class Solution {
+    public int countBinarySubstrings(String s) {
+        int currentInRow = 0; //prevent error when index = str.length
+        int matchInRow = 0;
+        int res = 0;
+        char[] str = s.toCharArray();
+        for(int index = 0; index < str.length; index += currentInRow){
+            currentInRow = matchInRow;
+            if (currentInRow == 0){
+                for(int c = 1; c + index < str.length; c++){
+               if (str[index] != str[index+c]){
+                   currentInRow = c;
+                   break;
+               }      
+           }
+            }
+            
+            if(currentInRow + index > str.length){
+                break;
+            }
+           
+
+            for(int m = 1; index + currentInRow + m < str.length; m++){
+                if (str[index + currentInRow + m] != str[index + currentInRow]){
+                    matchInRow = m;
+                    break;
+                }
+
+            }
+            
+            if(currentInRow + index + matchInRow > str.length){
+                matchInRow -= currentInRow + index + matchInRow - str.length;
+                res += Math.min(currentInRow,matchInRow);
+                break;
+            }
+            
+
+                res += Math.min(currentInRow,matchInRow);
+            
+            
+
+        }
+        
+        
+        return res;
+    }
+}
